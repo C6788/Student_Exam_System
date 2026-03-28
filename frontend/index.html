@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考场管理系统 - AI协作开发</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎓 学生信息与考场管理系统</h1>
+            <p>基于 Python 标准库与 Vanilla JS 构建</p>
+        </header>
+
+        <main>
+            <section class="card">
+                <h2>🔍 查找学生</h2>
+                <div class="input-group">
+                    <input type="text" id="studentIdInput" placeholder="请输入学号 (如: 22334455)">
+                    <button id="searchBtn">查找</button>
+                </div>
+                <div id="searchResult" class="result-box"></div>
+            </section>
+
+            <section class="card">
+                <h2>🎲 随机点名</h2>
+                <div class="input-group">
+                    <input type="number" id="rollCallCount" placeholder="请输入抽取人数" min="1">
+                    <button id="rollCallBtn">开始点名</button>
+                </div>
+                <ul id="rollCallResult" class="result-list"></ul>
+            </section>
+
+            <section class="card">
+                <h2>📄 考场与文件管理</h2>
+                <div class="button-group">
+                    <button id="generateScheduleBtn" class="primary-btn">生成考场安排表</button>
+                    <button id="generateTicketsBtn" class="secondary-btn">生成准考证目录</button>
+                </div>
+                <div id="fileSystemStatus" class="status-box"></div>
+            </section>
+        </main>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
