@@ -41,10 +41,11 @@ AI 生成的隐患/缺陷 (Code Smell)：
 4. 人工代码审查 (Code Review)
 以下是我针对 信息初始化加载 (load_data) 模块的人工审查与逐行批注。这部分代码涉及关键的文件 IO 和数据清洗，我已充分理解其底层机制：
 
-
+``python
     def load_data(self):
         """信息初始化：读取文本文件并解析为 Student 对象"""
         try:
+            # 使用上下文管理器 (with) 确保文件句柄在使用后能被系统安全释放，防止内存泄漏
             # 明确声明 encoding='utf-8'，避免在不同操作系统下产生中文乱码
             with open(self.file_path, 'r', encoding='utf-8') as f:
                 # 采用迭代器按行读取文件，而非 readlines() 一次性吞入，这在处理超大名单时内存占用极低
@@ -52,7 +53,7 @@ AI 生成的隐患/缺陷 (Code Smell)：
                     # strip() 剥离头尾换行符和不可见空格，split() 默认以任意空白字符为分隔符将字符串切片
                     parts = line.strip().split()
                     
-                    # 过滤掉文末可能存在的空行或格式不全的脏数据，确保解包安全
+                    # 容错处理：过滤掉文末可能存在的空行或格式不全的脏数据，确保解包安全
                     if len(parts) >= 5:
                         # 严格按照列顺序，将清洗后的字符串实例化为 Student 数据模型
                         student = Student(parts[4], parts[1], parts[2], parts[3], parts[5])
@@ -61,6 +62,6 @@ AI 生成的隐患/缺陷 (Code Smell)：
                         
             print(f"✅ 系统初始化成功！共加载 {len(self.students)} 名学生信息。")
             
-        # 文件路径错误时，向用户抛出通俗易懂的 UI 提示，而不是在底层代码堆栈
+        # 精准捕获文件路径错误，向用户抛出通俗易懂的 UI 提示，而不是暴露底层代码堆栈
         except FileNotFoundError:
-            print(f"❌ 严重错误：未找到数据文件 '{self.file_path}'。请确保文件存在于根目录。")
+            print(f"❌ 严重错误：未找到数据文件 '{self.file_path}'。请确保文件存在于根目录。")            print(f"❌ 严重错误：未找到数据文件 '{self.file_path}'。请确保文件存在于根目录。")
