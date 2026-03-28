@@ -38,10 +38,11 @@ AI 生成的隐患/缺陷 (Code Smell)：
 
 解决过程： 我没有完全依赖 AI 来处理这个细节，而是自己通过阅读 Traceback 锁定了崩溃点发生在 int(count_str) 这一行。随后，我在该层外包裹了 try-except ValueError 拦截器。同时，为了防止输入数量大于实际名单人数导致 random.sample 越界崩溃，我手工补充了 if count > len(self.students): 的前置边界条件防御。不仅捕获了异常，还保障了交互的连贯性。
 
-4. 人工代码审查 (Code Review)
-以下是我针对 信息初始化加载 (load_data) 模块的人工审查与逐行批注。这部分代码涉及关键的文件 IO 和数据清洗，我已充分理解其底层机制：
+## 4. 人工代码审查 (Code Review)
 
-``python
+以下是我针对 **信息初始化加载 (`load_data`)** 模块的人工审查与逐行批注。这部分代码涉及关键的文件 IO 和数据清洗，我已充分理解其底层机制：
+
+```python
     def load_data(self):
         """信息初始化：读取文本文件并解析为 Student 对象"""
         try:
@@ -64,4 +65,4 @@ AI 生成的隐患/缺陷 (Code Smell)：
             
         # 精准捕获文件路径错误，向用户抛出通俗易懂的 UI 提示，而不是暴露底层代码堆栈
         except FileNotFoundError:
-            print(f"❌ 严重错误：未找到数据文件 '{self.file_path}'。请确保文件存在于根目录。")            print(f"❌ 严重错误：未找到数据文件 '{self.file_path}'。请确保文件存在于根目录。")
+            print(f"❌ 严重错误：未找到数据文件 '{self.file_path}'。请确保文件存在于根目录。")
